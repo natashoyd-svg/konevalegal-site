@@ -26,14 +26,16 @@ window.KL.site = {
     email: "ask@konevalegal.ru",  // например: "name@domain.ru"
     telegram: "",         // ссылка вида "https://t.me/username"
     telegramLabel: "",    // как показывать: "@username"
-    phone: "",            // по желанию
+    phone: "+7 (999) 184-71-76",  // по желанию
     city: "",             // город / формат работы (очно, онлайн)
     hours: ""             // например: "Пн–Пт, 10:00–18:00"
   },
 
+  // * Instagram принадлежит Meta (признана в РФ экстремистской организацией и запрещена): пометка обязательна при упоминании.
   // Социальные сети. Добавьте ссылки: { label: "ВКонтакте", href: "https://vk.com/..." }
   // Если href пустой — пункт покажется как заготовка.
   socials: [
+    { label: "Instagram*", href: "https://www.instagram.com/koneva_legal/" },
     { label: "ВКонтакте", href: "" },
     { label: "Telegram-канал", href: "" },
     { label: "YouTube", href: "" }
