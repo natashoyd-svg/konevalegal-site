@@ -104,7 +104,8 @@
 
   function socialsNode() {
     var frag = document.createDocumentFragment();
-    (S.socials || []).forEach(function (s, i) {
+    var list = (S.socials || []).filter(function (s) { return S.showPlaceholders || s.href; });
+    list.forEach(function (s, i) {
       if (i) frag.appendChild(document.createTextNode(" · "));
       frag.appendChild(s.href ? el("a", { href: s.href, rel: "noopener", text: s.label }) : el("span", { class: "ph", text: "[" + s.label + " — заполнить]" }));
     });
@@ -117,6 +118,12 @@
       n.textContent = "";
       var node = kind === "socials" ? socialsNode() : contactNode(kind);
       if (node) n.appendChild(node);
+      /* Пустые контакты на рабочем сайте скрываем (showPlaceholders: false в site.config.js) */
+      var isEmpty = !n.textContent.trim() || (n.querySelector(".ph") && !n.querySelector("a"));
+      if (!S.showPlaceholders && isEmpty) {
+        var row = n.closest(".c-item") || (n.tagName === "LI" ? n : null);
+        if (row) row.hidden = true;
+      }
     });
   }
 
@@ -160,7 +167,8 @@
     wrap.appendChild(grid);
     var bottom = el("div", { class: "foot-bottom" });
     bottom.appendChild(el("span", { text: "© " + new Date().getFullYear() + " " + S.brand + ". " + S.name + ", " + S.role.toLowerCase() + "." }));
-    bottom.appendChild(el("span", { text: "Демонстрационная версия сайта: кейсы вымышлены, контактные данные — заготовки, форма заявок не подключена." }));
+    var pl = el("a", { href: "privacy.html", text: "Политика обработки персональных данных" });
+    bottom.appendChild(pl);
     wrap.appendChild(bottom);
     host.appendChild(wrap);
   }

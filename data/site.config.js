@@ -15,12 +15,15 @@ window.KL.site = {
   experience: "около 10 лет",       // юридическая практика
   courtYears: "2 года",             // работа в суде — убрать строку, если не нужна: courtYears: ""
 
+  showCaseNumbers: false,          // true — показывать номера дел (А56-…/…) в карточках кейсов
+  showPlaceholders: false,         // true — показывать заготовки «[… — заполнить]» для пустых полей
+
   tagline: "Строительные споры. Деньги. Право.",
   priceNote: "Стоимость уточняется после изучения документов",
 
   // Контакты. Пока пусто → на сайте будут заготовки.
   contacts: {
-    email: "",            // например: "name@domain.ru"
+    email: "ask@konevalegal.ru",  // например: "name@domain.ru"
     telegram: "",         // ссылка вида "https://t.me/username"
     telegramLabel: "",    // как показывать: "@username"
     phone: "",            // по желанию

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'self'; object-src 'none'">
 <title>Контакты — Koneva Legal | Наталья Конева</title>
-<meta name="description" content="Контакты Koneva Legal: связаться с Натальей Коневой, практикующим юристом по строительным и арбитражным спорам. Форма обратной связи находится в разработке.">
+<meta name="description" content="Контакты Koneva Legal: связаться с Натальей Коневой, практикующим юристом по строительным и арбитражным спорам.">
 <meta name="theme-color" content="#0d261f">
 <link rel="canonical" href="https://konevalegal.ru/contacts.html">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -15,7 +15,7 @@
 <meta property="og:locale" content="ru_RU">
 <meta property="og:site_name" content="Koneva Legal">
 <meta property="og:title" content="Контакты — Koneva Legal | Наталья Конева">
-<meta property="og:description" content="Контакты Koneva Legal: связаться с Натальей Коневой, практикующим юристом по строительным и арбитражным спорам. Форма обратной связи находится в разработке.">
+<meta property="og:description" content="Контакты Koneva Legal: связаться с Натальей Коневой, практикующим юристом по строительным и арбитражным спорам.">
 <meta property="og:url" content="https://konevalegal.ru/contacts.html">
 <meta property="og:image" content="https://konevalegal.ru/assets/img/og.jpg">
 <meta property="og:image:width" content="1200">
@@ -50,21 +50,21 @@
       </dl>
     </div>
 
-    <form class="form-card reveal d1" id="form" data-demo-form aria-labelledby="form-h">
-      <span class="dev-tag">Форма находится в разработке</span>
+    <form class="form-card reveal d1" id="form" data-mail-form aria-labelledby="form-h">
       <h2 id="form-h">Форма обратной связи</h2>
-      <p class="sub">Так будет выглядеть форма заявки. Сейчас она работает в демонстрационном режиме.</p>
+      <p class="sub">Заполните форму: откроется письмо в вашей почтовой программе, останется нажать «Отправить». Письмо придёт напрямую на мою почту.</p>
 
       <div class="field"><label for="f-name">Имя</label><input id="f-name" name="name" type="text" required autocomplete="off" maxlength="120"></div>
-      <div class="field"><label for="f-contact">Телефон или e-mail</label><input id="f-contact" name="contact" type="text" required autocomplete="off" maxlength="160"></div>
+      <div class="field"><label for="f-contact">Телефон или e-mail</label><input id="f-contact" name="contact" type="text" required autocomplete="off" maxlength="160" placeholder="Как вам удобнее ответить"></div>
       <div class="field"><label for="f-topic">Категория юридической проблемы</label><select id="f-topic" name="topic"><option value="">Выберите категорию</option></select></div>
-      <div class="field"><label for="f-msg">Краткое описание ситуации</label><textarea id="f-msg" name="message" maxlength="1500" placeholder="Что произошло, какие документы есть, какая сумма спора"></textarea></div>
+      <div class="field"><label for="f-msg">Краткое описание ситуации</label><textarea id="f-msg" name="message" maxlength="1500" placeholder="Можно не заполнять: в письме будет стандартная просьба перезвонить (на русском и английском)"></textarea></div>
 
-      <label class="consent"><input type="checkbox" name="consent" required><span>Я согласен(на) на обработку персональных данных<small>Политика обработки и текст согласия будут подключены на втором этапе.</small></span></label>
+      <label class="consent"><input type="checkbox" name="consent" required><span>Я согласен(на) на обработку моих персональных данных, указанных в письме, для ответа на моё обращение<small>Подробнее в <a href="privacy.html">политике обработки персональных данных</a>. Сайт ничего не собирает и не хранит: данные попадут только в письмо, которое вы отправите сами.</small></span></label>
 
       <button class="btn" type="submit">Отправить <span class="arr" aria-hidden="true">→</span></button>
       <div class="form-status" id="f-status" role="status" aria-live="polite" tabindex="-1"></div>
-      <p class="form-warn">Пока не вводите реальные персональные данные: форма ничего не отправляет и не сохраняет.</p>
+      <p class="form-warn">Не открылась почтовая программа? Напишите на <span data-mail-inline></span> или скопируйте текст кнопкой ниже.</p>
+      <button class="btn ghost" type="button" id="f-copy" hidden>Скопировать текст письма</button>
     </form>
   </div>
 </section>

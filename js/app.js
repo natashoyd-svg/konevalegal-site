@@ -119,7 +119,7 @@
   function caseCard(c, idx) {
     var card = el("button", { class: "case-card reveal", type: "button", "data-id": c.id });
     var top = el("div", { class: "case-top" });
-    top.appendChild(el("span", { class: "case-no", text: c.demo ? "Дело № — · демо" : ("Дело " + (c.caseNo || "№ —")) }));
+    top.appendChild(el("span", { class: "case-no", text: c.demo ? "Демонстрационный кейс" : (S.showCaseNumbers && c.caseNo ? "Дело " + c.caseNo : (c.court || "Арбитражное дело")) }));
     if (c.demo) top.appendChild(el("span", { class: "stamp", text: "Демо" }));
     card.appendChild(top);
     card.appendChild(el("span", { class: "case-cat", text: c.category }));
@@ -142,7 +142,9 @@
     root.appendChild(el("h2", { text: c.title }));
     root.appendChild(el("p", { class: "amount-label", text: c.amountLabel || "Сумма требований" }));
     root.appendChild(el("div", { class: "amount", text: c.amount }));
-    if (c.caseNo) root.appendChild(el("p", { class: "norms", text: "Номер дела: " + c.caseNo }));
+    if (S.showCaseNumbers && c.caseNo) root.appendChild(el("p", { class: "norms", text: "Номер дела: " + c.caseNo }));
+    if (c.court) root.appendChild(el("p", { class: "norms", text: c.court }));
+    if (c.role) root.appendChild(el("p", { class: "norms", text: "Моя роль: " + c.role[0].toLowerCase() + c.role.slice(1) }));
 
     function sec(no, title, body, cls) {
       var s = el("section", { class: "doc-sec" + (cls ? " " + cls : "") });
@@ -159,6 +161,7 @@
     root.appendChild(sec("03", "Юридический вопрос", c.question));
     root.appendChild(sec("04", "Результат", c.result, "result"));
     root.appendChild(sec("05", "Вывод для бизнеса", c.lesson, "lesson"));
+    if (c.status) root.appendChild(el("p", { class: "norms", style: "margin-top:1.2rem", text: "Стадия на дату актов: " + c.status }));
 
     var cta = el("div", { class: "panel-cta" });
     var a = el("a", { class: "btn", href: "contacts.html#form" });
@@ -244,15 +247,15 @@
   openFromHash();
 
   /* ==========================================================
-     ДЕМО-ФОРМА
-     ВАЖНО: на этом этапе форма ничего не отправляет и не хранит.
+     ФОРМА ОБРАТНОЙ СВЯЗИ ЧЕРЕЗ ПОЧТУ (mailto)
+     Сайт ничего не отправляет и не хранит: форма собирает текст
+     письма и открывает почтовую программу посетителя. Письмо он
+     отправляет сам, со своей почты, на адрес из site.config.js.
        • нет fetch / XMLHttpRequest / sendBeacon / WebSocket;
        • нет localStorage, sessionStorage, cookies;
-       • submit перехватывается и только показывает сообщение;
-       • CSP в <head> (connect-src 'none'; form-action 'none')
-         дополнительно запрещает браузеру любую отправку.
+       • CSP (connect-src 'none'; form-action 'none') сохранена.
      ========================================================== */
-  var form = $("[data-demo-form]");
+  var form = $("[data-mail-form]");
   if (form) {
     var select = $("#f-topic");
     if (select) {
@@ -262,12 +265,31 @@
       if (topic && practiceBySlug(topic)) select.value = topic;
     }
     var status = $("#f-status");
+    var copyBtn = $("#f-copy");
+    var mailTo = (KL.site && KL.site.contacts && KL.site.contacts.email) || "";
+    var lastText = "";
+    function topicTitle() {
+      var o = select && select.options[select.selectedIndex];
+      return o && o.value ? o.textContent : "не выбрана";
+    }
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }
-      status.textContent = "Это демонстрационная форма. Приём заявок пока не подключён";
+      var name = form.elements.name.value.trim(), contact = form.elements.contact.value.trim(), msg = form.elements.message.value.trim();
+      var subject = "Обращение с сайта Koneva Legal";
+      lastText = "Имя: " + name + "\nКак ответить: " + contact + "\nКатегория: " + topicTitle() + "\n\n" + (msg || "Интересуют услуги представительства в суде, пожалуйста, перезвоните.\nI am interested in legal representation in court. Please call me back.") + "\n\nСогласен(на) на обработку персональных данных для ответа на обращение.";
+      if (!mailTo) { status.textContent = "E-mail для связи пока не указан."; status.classList.add("show"); return; }
+      status.textContent = "Открываю письмо в вашей почтовой программе. Нажмите в нём «Отправить». Если ничего не открылось, воспользуйтесь кнопкой «Скопировать текст письма» и напишите на " + mailTo + ".";
       status.classList.add("show");
+      if (copyBtn) copyBtn.hidden = false;
       status.focus();
+      window.location.href = "mailto:" + mailTo + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(lastText);
     });
+    if (copyBtn) copyBtn.addEventListener("click", function () {
+      function ok() { copyBtn.textContent = "Текст скопирован"; }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(lastText).then(ok, function () {});
+    });
+    var em = $("[data-mail-inline]");
+    if (em && mailTo) { em.textContent = mailTo; }
   }
 })();
